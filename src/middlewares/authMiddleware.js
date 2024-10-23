@@ -1,6 +1,6 @@
 import passport from "passport";
 import { Strategy as JwtStrategy } from "passport-jwt";
-import User from "./models/User.js";
+import User from "../models/User.js";
 
 const cookieExtractor = (req) => {
   let token = null;
@@ -33,4 +33,11 @@ passport.use(
   })
 );
 
+export const isAdmin = (req, res, next) => {
+  if (req.user && req.user.role === 'admin') {
+    return next(); 
+  }
+
+  return res.status(403).json({ message: 'Admin access required' });
+};
 export const authenticateJWT = passport.authenticate("jwt", { session: false });

@@ -1,20 +1,30 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import Cart from "../models/Cart.js";
 
 export const registerUser = async (req, res) => {
   const { first_name, last_name, email, age, password } = req.body;
 
   try {
     const hashedPassword = bcrypt.hashSync(password, 10); // Encriptar contraseña
+    
+    const cart = new Cart();
+    const savedCart = await cart.save()
+
     const user = new User({
       first_name,
       last_name,
       email,
       age,
+      cart: savedCart._id,
       password: hashedPassword,
     });
     await user.save();
+
+    savedCart.user = user._id;
+    await savedCart.save();
+    
     res.status(201).json({ message: "Usuario registrado exitosamente" });
   } catch (err) {
     res.status(400).json({ message: "Error al registrar usuario", error: err });
