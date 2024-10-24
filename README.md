@@ -18,6 +18,7 @@ http://localhost:3000/api
 - **Método:** `POST`
 - **Descripción:** Crea una nueva cuenta de usuario.
 - **Ejemplo de Cuerpo de Solicitud:**
+
   ```json
   {
     "first_name": "John",
@@ -44,8 +45,6 @@ http://localhost:3000/api
     "password": "123"
   }
   ```
-
-  ***
 
 ## 🛒 **Endpoints de Productos**
 
